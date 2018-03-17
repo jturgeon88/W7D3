@@ -71,6 +71,30 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/pokemon_actions.js":
+/*!*********************************************!*\
+  !*** ./frontend/actions/pokemon_actions.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var RECEIVE_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = 'RECEIVE_ALL_POKEMON';
+
+var receiveAllPokemon = exports.receiveAllPokemon = function receiveAllPokemon(pokemon) {
+  return {
+    type: RECEIVE_ALL_POKEMON,
+    pokemon: pokemon
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/pokedex.jsx":
 /*!******************************!*\
   !*** ./frontend/pokedex.jsx ***!
@@ -89,16 +113,51 @@ var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/i
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _api_util = __webpack_require__(/*! ./util/api_util */ "./frontend/util/api_util.js");
+
+var APIUtil = _interopRequireWildcard(_api_util);
+
+var _pokemon_actions = __webpack_require__(/*! ./actions/pokemon_actions */ "./frontend/actions/pokemon_actions.js");
+
+var PokemonActions = _interopRequireWildcard(_pokemon_actions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Test
 document.addEventListener('DOMContentLoaded', function () {
   var rootEl = document.getElementById('root');
+  window.fetchAllPokemon = APIUtil.fetchAllPokemon;
+  window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
   _reactDom2.default.render(_react2.default.createElement(
     'h1',
     null,
     'Pokedex'
   ), rootEl);
 });
+
+/***/ }),
+
+/***/ "./frontend/util/api_util.js":
+/*!***********************************!*\
+  !*** ./frontend/util/api_util.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var fetchAllPokemon = exports.fetchAllPokemon = function fetchAllPokemon() {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/pokemon'
+  });
+};
 
 /***/ }),
 
