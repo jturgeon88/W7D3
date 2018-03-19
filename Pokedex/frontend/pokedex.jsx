@@ -4,6 +4,7 @@ import configureStore from './store/store';
 // Test
 import * as APIUtil from './util/api_util';
 import * as PokemonActions from './actions/pokemon_actions';
+import { selectAllPokemon } from './reducers/selectors';
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootEl = document.getElementById('root');
@@ -13,5 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.requestAllPokemon = PokemonActions.requestAllPokemon;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
+  window.selectAllPokemon = selectAllPokemon;
   ReactDOM.render(<h1>Pokedex</h1>, rootEl);
 });
