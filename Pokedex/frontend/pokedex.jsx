@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const store = configureStore();
   //FOR TESTING:
   window.fetchAllPokemon = APIUtil.fetchAllPokemon;
-  window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
+  window.requestAllPokemon = PokemonActions.requestAllPokemon;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
   ReactDOM.render(<h1>Pokedex</h1>, rootEl);

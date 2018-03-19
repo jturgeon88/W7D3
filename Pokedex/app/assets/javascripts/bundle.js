@@ -84,6 +84,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.requestAllPokemon = exports.receiveAllPokemon = exports.RECEIVE_ALL_POKEMON = undefined;
+
+var _api_util = __webpack_require__(/*! ../util/api_util */ "./frontend/util/api_util.js");
+
+var APIUtil = _interopRequireWildcard(_api_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 var RECEIVE_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = 'RECEIVE_ALL_POKEMON';
 
 var receiveAllPokemon = exports.receiveAllPokemon = function receiveAllPokemon(pokemon) {
@@ -92,6 +100,47 @@ var receiveAllPokemon = exports.receiveAllPokemon = function receiveAllPokemon(p
     pokemon: pokemon
   };
 };
+
+//thunk action creators
+
+var requestAllPokemon = exports.requestAllPokemon = function requestAllPokemon() {
+  return function (dispatch) {
+    return APIUtil.fetchAllPokemon().then(function (pokemon) {
+      return dispatch(receiveAllPokemon(pokemon));
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./frontend/middleware/thunk.js":
+/*!**************************************!*\
+  !*** ./frontend/middleware/thunk.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var thunk = function thunk(_ref) {
+  var dispatch = _ref.dispatch,
+      getState = _ref.getState;
+  return function (next) {
+    return function (action) {
+      if (typeof action === 'function') {
+        return action(dispatch, getState);
+      }
+
+      return next(action);
+    };
+  };
+};
+
+exports.default = thunk;
 
 /***/ }),
 
@@ -135,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var store = (0, _store2.default)();
   //FOR TESTING:
   window.fetchAllPokemon = APIUtil.fetchAllPokemon;
-  window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
+  window.requestAllPokemon = PokemonActions.requestAllPokemon;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
   _reactDom2.default.render(_react2.default.createElement(
@@ -266,10 +315,14 @@ var _reduxLogger = __webpack_require__(/*! redux-logger */ "./node_modules/redux
 
 var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
+var _thunk = __webpack_require__(/*! ../middleware/thunk */ "./frontend/middleware/thunk.js");
+
+var _thunk2 = _interopRequireDefault(_thunk);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var configureStore = function configureStore() {
-  return (0, _redux.createStore)(_root_reducer2.default, (0, _redux.applyMiddleware)(_reduxLogger2.default));
+  return (0, _redux.createStore)(_root_reducer2.default, (0, _redux.applyMiddleware)(_thunk2.default, _reduxLogger2.default));
 };
 
 exports.default = configureStore;
