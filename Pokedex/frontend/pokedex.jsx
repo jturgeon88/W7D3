@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import configureStore from './store/store';
 import Root from './components/root';
+import { HashRouter, Route } from 'react-router-dom';
 // Test
 // import * as APIUtil from './util/api_util';
 // import * as PokemonActions from './actions/pokemon_actions';
