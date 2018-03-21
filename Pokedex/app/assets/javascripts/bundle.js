@@ -253,23 +253,29 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PokemonIndexItem = function PokemonIndexItem(_ref) {
   var poke = _ref.poke;
   return _react2.default.createElement(
-    "li",
+    'li',
     null,
     _react2.default.createElement(
-      "span",
-      null,
-      poke.id
-    ),
-    _react2.default.createElement("img", { src: poke.image_url, alt: poke.name, width: "20" }),
-    _react2.default.createElement(
-      "span",
-      null,
-      poke.name
+      _reactRouterDom.Link,
+      { to: '/pokemon/' + poke.id },
+      _react2.default.createElement(
+        'span',
+        null,
+        poke.id
+      ),
+      _react2.default.createElement('img', { src: poke.image_url, alt: poke.name, width: '20' }),
+      _react2.default.createElement(
+        'span',
+        null,
+        poke.name
+      )
     )
   );
 };
