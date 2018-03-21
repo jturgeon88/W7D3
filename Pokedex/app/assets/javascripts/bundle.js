@@ -84,7 +84,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestAllPokemon = exports.receiveAllPokemon = exports.RECEIVE_ALL_POKEMON = undefined;
+exports.requestAllPokemon = exports.receiveSinglePokemon = exports.receiveAllPokemon = exports.RECEIVE_SINGLE_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
 
 var _api_util = __webpack_require__(/*! ../util/api_util */ "./frontend/util/api_util.js");
 
@@ -93,11 +93,19 @@ var APIUtil = _interopRequireWildcard(_api_util);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var RECEIVE_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = 'RECEIVE_ALL_POKEMON';
+var RECEIVE_SINGLE_POKEMON = exports.RECEIVE_SINGLE_POKEMON = 'RECEIVE_SINGLE_POKEMON';
 
 var receiveAllPokemon = exports.receiveAllPokemon = function receiveAllPokemon(pokemon) {
   return {
     type: RECEIVE_ALL_POKEMON,
     pokemon: pokemon
+  };
+};
+
+var receiveSinglePokemon = exports.receiveSinglePokemon = function receiveSinglePokemon(poke) {
+  return {
+    type: RECEIVE_SINGLE_POKEMON,
+    poke: poke
   };
 };
 
@@ -110,6 +118,13 @@ var requestAllPokemon = exports.requestAllPokemon = function requestAllPokemon()
     });
   };
 };
+
+// export const requestSinglePokemon = (id) => (dispatch) => {
+//   return APIUtil.fetchSinglePokemon(id).then(pokemon => {
+//     dispatch(receiveSinglePokemon(pokemon));
+//     return pokemon;
+//   });
+// }
 
 /***/ }),
 
@@ -388,19 +403,31 @@ var _root2 = _interopRequireDefault(_root);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
+var _api_util = __webpack_require__(/*! ./util/api_util */ "./frontend/util/api_util.js");
+
+var APIUtil = _interopRequireWildcard(_api_util);
+
+var _pokemon_actions = __webpack_require__(/*! ./actions/pokemon_actions */ "./frontend/actions/pokemon_actions.js");
+
+var PokemonActions = _interopRequireWildcard(_pokemon_actions);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Test
-// import * as APIUtil from './util/api_util';
-// import * as PokemonActions from './actions/pokemon_actions';
 // import { selectAllPokemon } from './reducers/selectors';
 
+// Test
 document.addEventListener('DOMContentLoaded', function () {
   var store = (0, _store2.default)();
   var rootEl = document.getElementById('root');
   //FOR TESTING:
+  window.fetchSinglePokemon = APIUtil.fetchSinglePokemon;
+  window.receiveSinglePokemon = PokemonActions.receiveSinglePokemon;
+
   // window.fetchAllPokemon = APIUtil.fetchAllPokemon;
-  // window.requestAllPokemon = PokemonActions.requestAllPokemon;
+  // window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
+  // window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
   // window.getState = store.getState;
   // window.dispatch = store.dispatch;
   // window.selectAllPokemon = selectAllPokemon;
@@ -464,6 +491,8 @@ var pokemonReducer = function pokemonReducer() {
   switch (action.type) {
     case "RECEIVE_ALL_POKEMON":
       return action.pokemon;
+    case "RECEIVE_SINGLE_POKEMON":
+      return action.poke;
     default:
       return state;
   }
@@ -587,6 +616,13 @@ var fetchAllPokemon = exports.fetchAllPokemon = function fetchAllPokemon() {
   return $.ajax({
     method: 'GET',
     url: 'api/pokemon'
+  });
+};
+
+var fetchSinglePokemon = exports.fetchSinglePokemon = function fetchSinglePokemon(id) {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/pokemon/' + id
   });
 };
 
