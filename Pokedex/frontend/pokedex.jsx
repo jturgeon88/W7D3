@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // window.fetchAllPokemon = APIUtil.fetchAllPokemon;
   // window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
   // window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
-  // window.getState = store.getState;
-  // window.dispatch = store.dispatch;
+  window.getState = store.getState;
+  window.dispatch = store.dispatch;
   // window.selectAllPokemon = selectAllPokemon;
 
   ReactDOM.render(<Root store={store}/>, rootEl);

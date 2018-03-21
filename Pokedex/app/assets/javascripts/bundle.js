@@ -428,8 +428,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // window.fetchAllPokemon = APIUtil.fetchAllPokemon;
   // window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
   // window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
-  // window.getState = store.getState;
-  // window.dispatch = store.dispatch;
+  window.getState = store.getState;
+  window.dispatch = store.dispatch;
   // window.selectAllPokemon = selectAllPokemon;
 
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), rootEl);
