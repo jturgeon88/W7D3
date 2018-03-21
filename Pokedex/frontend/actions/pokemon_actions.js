@@ -8,9 +8,9 @@ export const receiveAllPokemon = pokemon => ({
   pokemon
 })
 
-export const receiveSinglePokemon = poke => ({
+export const receiveSinglePokemon = payload => ({
   type: RECEIVE_SINGLE_POKEMON,
-  poke
+  payload
 })
 
 //thunk action creators
