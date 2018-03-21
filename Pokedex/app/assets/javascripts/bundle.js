@@ -137,6 +137,10 @@ var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/i
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _pokemon_index_item = __webpack_require__(/*! ./pokemon_index_item */ "./frontend/components/pokemon/pokemon_index_item.jsx");
+
+var _pokemon_index_item2 = _interopRequireDefault(_pokemon_index_item);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -165,22 +169,16 @@ var PokemonIndex = function (_React$Component) {
       var pokemon = this.props.pokemon;
 
       var pokemonListItems = pokemon.map(function (poke) {
-        return _react2.default.createElement(
-          'li',
-          { key: 'pokemon-list-item' + poke.id },
-          _react2.default.createElement(
-            'p',
-            null,
-            poke.name
-          ),
-          _react2.default.createElement('img', { src: poke.image_url, alt: 'small pokemon pic', width: '20' })
-        );
+        return _react2.default.createElement(_pokemon_index_item2.default, { key: poke.id, poke: poke });
       });
-
       return _react2.default.createElement(
-        'ul',
-        null,
-        pokemonListItems
+        'section',
+        { className: 'pokedex' },
+        _react2.default.createElement(
+          'ul',
+          null,
+          pokemonListItems
+        )
       );
     }
   }]);
@@ -234,6 +232,49 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_pokemon_index2.default);
+
+/***/ }),
+
+/***/ "./frontend/components/pokemon/pokemon_index_item.jsx":
+/*!************************************************************!*\
+  !*** ./frontend/components/pokemon/pokemon_index_item.jsx ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PokemonIndexItem = function PokemonIndexItem(_ref) {
+  var poke = _ref.poke;
+  return _react2.default.createElement(
+    "li",
+    null,
+    _react2.default.createElement(
+      "span",
+      null,
+      poke.id
+    ),
+    _react2.default.createElement("img", { src: poke.image_url, alt: poke.name, width: "20" }),
+    _react2.default.createElement(
+      "span",
+      null,
+      poke.name
+    )
+  );
+};
+
+exports.default = PokemonIndexItem;
 
 /***/ }),
 
