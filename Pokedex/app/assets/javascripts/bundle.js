@@ -84,7 +84,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestAllPokemon = exports.receiveSinglePokemon = exports.receiveAllPokemon = exports.RECEIVE_SINGLE_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
+exports.requestSinglePokemon = exports.requestAllPokemon = exports.receiveSinglePokemon = exports.receiveAllPokemon = exports.RECEIVE_SINGLE_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
 
 var _api_util = __webpack_require__(/*! ../util/api_util */ "./frontend/util/api_util.js");
 
@@ -119,12 +119,14 @@ var requestAllPokemon = exports.requestAllPokemon = function requestAllPokemon()
   };
 };
 
-// export const requestSinglePokemon = (id) => (dispatch) => {
-//   return APIUtil.fetchSinglePokemon(id).then(pokemon => {
-//     dispatch(receiveSinglePokemon(pokemon));
-//     return pokemon;
-//   });
-// }
+var requestSinglePokemon = exports.requestSinglePokemon = function requestSinglePokemon(id) {
+  return function (dispatch) {
+    return APIUtil.fetchSinglePokemon(id).then(function (pokemon) {
+      dispatch(receiveSinglePokemon(pokemon));
+      return pokemon;
+    });
+  };
+};
 
 /***/ }),
 
@@ -423,11 +425,11 @@ document.addEventListener('DOMContentLoaded', function () {
   var rootEl = document.getElementById('root');
   //FOR TESTING:
   window.fetchSinglePokemon = APIUtil.fetchSinglePokemon;
-  window.receiveSinglePokemon = PokemonActions.receiveSinglePokemon;
+  // window.receiveSinglePokemon = PokemonActions.receiveSinglePokemon;
 
   // window.fetchAllPokemon = APIUtil.fetchAllPokemon;
   // window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
-  // window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
+  window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
   // window.selectAllPokemon = selectAllPokemon;
@@ -582,12 +584,17 @@ var _entities_reducer = __webpack_require__(/*! ./entities_reducer */ "./fronten
 
 var _entities_reducer2 = _interopRequireDefault(_entities_reducer);
 
+var _ui_reducer = __webpack_require__(/*! ./ui_reducer */ "./frontend/reducers/ui_reducer.js");
+
+var _ui_reducer2 = _interopRequireDefault(_ui_reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //Here we'll call combineReducers such that our entitiesReducer is respoonsible for the entities slice of the app
 
 var rootReducer = (0, _redux.combineReducers)({
-  entities: _entities_reducer2.default
+  entities: _entities_reducer2.default,
+  ui: _ui_reducer2.default
 });
 
 exports.default = rootReducer;
@@ -618,6 +625,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var selectAllPokemon = exports.selectAllPokemon = function selectAllPokemon(state) {
   return (0, _values2.default)(state.entities.pokemon);
 };
+
+/***/ }),
+
+/***/ "./frontend/reducers/ui_reducer.js":
+/*!*****************************************!*\
+  !*** ./frontend/reducers/ui_reducer.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/index.js");
+
+var _merge = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
+
+var _merge2 = _interopRequireDefault(_merge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var uiReducer = (0, _redux.combineReducers)({});
+
+// export default uiReducer;
 
 /***/ }),
 

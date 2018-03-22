@@ -20,9 +20,9 @@ export const requestAllPokemon = () => (dispatch) => (
     .then(pokemon => dispatch(receiveAllPokemon(pokemon)))
 )
 
-// export const requestSinglePokemon = (id) => (dispatch) => {
-//   return APIUtil.fetchSinglePokemon(id).then(pokemon => {
-//     dispatch(receiveSinglePokemon(pokemon));
-//     return pokemon;
-//   });
-// }
+export const requestSinglePokemon = (id) => (dispatch) => {
+  return APIUtil.fetchSinglePokemon(id).then(pokemon => {
+    dispatch(receiveSinglePokemon(pokemon));
+    return pokemon;
+  });
+}

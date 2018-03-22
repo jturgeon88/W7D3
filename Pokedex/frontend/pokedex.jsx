@@ -13,11 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const rootEl = document.getElementById('root');
   //FOR TESTING:
   window.fetchSinglePokemon = APIUtil.fetchSinglePokemon;
-  window.receiveSinglePokemon = PokemonActions.receiveSinglePokemon;
+  // window.receiveSinglePokemon = PokemonActions.receiveSinglePokemon;
 
   // window.fetchAllPokemon = APIUtil.fetchAllPokemon;
   // window.receiveAllPokemon = PokemonActions.receiveAllPokemon;
-  // window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
+  window.requestSinglePokemon = PokemonActions.requestSinglePokemon;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
   // window.selectAllPokemon = selectAllPokemon;
