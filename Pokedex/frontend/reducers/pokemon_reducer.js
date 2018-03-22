@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 
-import { RECEIVE_ALL_POKEMON } from '../actions/pokemon_actions';
-import { RECEIVE_SINGLE_POKEMON } from '../actions/pokemon_actions';
+import { RECEIVE_ALL_POKEMON, RECEIVE_SINGLE_POKEMON } from '../actions/pokemon_actions';
 
 const pokemonReducer = (state = {}, action) => {
   Object.freeze(state);

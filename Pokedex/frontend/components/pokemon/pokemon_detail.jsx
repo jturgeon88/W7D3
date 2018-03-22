@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-class PokemonDetail extends React.Component {
+class PokemonDetail extends Component {
   componentDidMount() {
+    // loadingPokemon()
     this.props.requestSinglePokemon(this.props.match.params.pokemonId);
+    // .then(() => pokemonLoaded())
   }
 
   componentWillReceiveProps(nextProps) {
@@ -15,16 +17,17 @@ class PokemonDetail extends React.Component {
 
   render () {
     const { pokemon } = this.props;
-    console.log(pokemon);
+
+    // if (pokemonNotLoaded) return null
 
     if (!pokemon) return null;
+    if (!pokemon.moves) return null;
 
     return (
       <section className="pokemon-detail">
         <figure>
-          <img src={pokemon.img_url} alt={pokemon.name} />
+          <img src={pokemon.image_url} alt={pokemon.name} />
         </figure>
-
         <ul>
           <li>
             <h2>{pokemon.name}</h2>
@@ -32,6 +35,7 @@ class PokemonDetail extends React.Component {
           <li>Type: {pokemon.poke_type}</li>
           <li>Attack: {pokemon.attack}</li>
           <li>Defense: {pokemon.defense}</li>
+          <li>Moves: {pokemon.moves.join(', ')}</li>
         </ul>
       </section>
     );

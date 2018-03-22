@@ -84,7 +84,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestSinglePokemon = exports.requestAllPokemon = exports.receiveSinglePokemon = exports.receiveAllPokemon = exports.RECEIVE_SINGLE_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
+exports.receiveSinglePokemon = exports.receiveAllPokemon = exports.requestSinglePokemon = exports.requestAllPokemon = exports.RECEIVE_SINGLE_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
 
 var _api_util = __webpack_require__(/*! ../util/api_util */ "./frontend/util/api_util.js");
 
@@ -95,6 +95,26 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var RECEIVE_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = 'RECEIVE_ALL_POKEMON';
 var RECEIVE_SINGLE_POKEMON = exports.RECEIVE_SINGLE_POKEMON = 'RECEIVE_SINGLE_POKEMON';
 
+//thunk action creators
+
+var requestAllPokemon = exports.requestAllPokemon = function requestAllPokemon() {
+  return function (dispatch) {
+    return APIUtil.fetchAllPokemon().then(function (pokemon) {
+      dispatch(receiveAllPokemon(pokemon));
+    });
+  };
+};
+
+var requestSinglePokemon = exports.requestSinglePokemon = function requestSinglePokemon(id) {
+  return function (dispatch) {
+    return APIUtil.fetchSinglePokemon(id).then(function (pokemon) {
+      dispatch(receiveSinglePokemon(pokemon));
+      return pokemon;
+    });
+  };
+};
+
+// synchronous
 var receiveAllPokemon = exports.receiveAllPokemon = function receiveAllPokemon(pokemon) {
   return {
     type: RECEIVE_ALL_POKEMON,
@@ -106,25 +126,6 @@ var receiveSinglePokemon = exports.receiveSinglePokemon = function receiveSingle
   return {
     type: RECEIVE_SINGLE_POKEMON,
     payload: payload
-  };
-};
-
-//thunk action creators
-
-var requestAllPokemon = exports.requestAllPokemon = function requestAllPokemon() {
-  return function (dispatch) {
-    return APIUtil.fetchAllPokemon().then(function (pokemon) {
-      return dispatch(receiveAllPokemon(pokemon));
-    });
-  };
-};
-
-var requestSinglePokemon = exports.requestSinglePokemon = function requestSinglePokemon(id) {
-  return function (dispatch) {
-    return APIUtil.fetchSinglePokemon(id).then(function (pokemon) {
-      dispatch(receiveSinglePokemon(pokemon));
-      return pokemon;
-    });
   };
 };
 
@@ -160,8 +161,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PokemonDetail = function (_React$Component) {
-  _inherits(PokemonDetail, _React$Component);
+var PokemonDetail = function (_Component) {
+  _inherits(PokemonDetail, _Component);
 
   function PokemonDetail() {
     _classCallCheck(this, PokemonDetail);
@@ -172,7 +173,9 @@ var PokemonDetail = function (_React$Component) {
   _createClass(PokemonDetail, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      // loadingPokemon()
       this.props.requestSinglePokemon(this.props.match.params.pokemonId);
+      // .then(() => pokemonLoaded())
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -186,9 +189,10 @@ var PokemonDetail = function (_React$Component) {
     value: function render() {
       var pokemon = this.props.pokemon;
 
-      console.log(pokemon);
+      // if (pokemonNotLoaded) return null
 
       if (!pokemon) return null;
+      if (!pokemon.moves) return null;
 
       return _react2.default.createElement(
         'section',
@@ -196,7 +200,7 @@ var PokemonDetail = function (_React$Component) {
         _react2.default.createElement(
           'figure',
           null,
-          _react2.default.createElement('img', { src: pokemon.img_url, alt: pokemon.name })
+          _react2.default.createElement('img', { src: pokemon.image_url, alt: pokemon.name })
         ),
         _react2.default.createElement(
           'ul',
@@ -227,6 +231,12 @@ var PokemonDetail = function (_React$Component) {
             null,
             'Defense: ',
             pokemon.defense
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            'Moves: ',
+            pokemon.moves.join(', ')
           )
         )
       );
@@ -234,7 +244,7 @@ var PokemonDetail = function (_React$Component) {
   }]);
 
   return PokemonDetail;
-}(_react2.default.Component);
+}(_react.Component);
 
 exports.default = PokemonDetail;
 
@@ -306,13 +316,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _pokemon_detail_container = __webpack_require__(/*! ./pokemon_detail_container */ "./frontend/components/pokemon/pokemon_detail_container.js");
-
-var _pokemon_detail_container2 = _interopRequireDefault(_pokemon_detail_container);
-
 var _pokemon_index_item = __webpack_require__(/*! ./pokemon_index_item */ "./frontend/components/pokemon/pokemon_index_item.jsx");
 
 var _pokemon_index_item2 = _interopRequireDefault(_pokemon_index_item);
+
+var _pokemon_detail_container = __webpack_require__(/*! ./pokemon_detail_container */ "./frontend/components/pokemon/pokemon_detail_container.js");
+
+var _pokemon_detail_container2 = _interopRequireDefault(_pokemon_detail_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -322,8 +332,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PokemonIndex = function (_React$Component) {
-  _inherits(PokemonIndex, _React$Component);
+var PokemonIndex = function (_Component) {
+  _inherits(PokemonIndex, _Component);
 
   function PokemonIndex() {
     _classCallCheck(this, PokemonIndex);
@@ -341,24 +351,28 @@ var PokemonIndex = function (_React$Component) {
     value: function render() {
       var pokemon = this.props.pokemon;
 
-      var pokemonListItems = pokemon.map(function (poke) {
-        return _react2.default.createElement(_pokemon_index_item2.default, { key: poke.id, poke: poke });
-      });
+      // const pokemonListItems = pokemon.map(poke => <PokemonIndexItem key={poke.id} pokemon={poke} />);
+
       return _react2.default.createElement(
         'section',
         { className: 'pokedex' },
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/pokemon/:pokemonId', component: _pokemon_detail_container2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, {
+          path: '/pokemon/:pokemonId',
+          component: _pokemon_detail_container2.default
+        }),
         _react2.default.createElement(
           'ul',
           null,
-          pokemonListItems
+          pokemon.map(function (poke) {
+            return _react2.default.createElement(_pokemon_index_item2.default, { key: poke.id, pokemon: poke });
+          })
         )
       );
     }
   }]);
 
   return PokemonIndex;
-}(_react2.default.Component);
+}(_react.Component);
 
 exports.default = PokemonIndex;
 
@@ -432,23 +446,23 @@ var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_module
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PokemonIndexItem = function PokemonIndexItem(_ref) {
-  var poke = _ref.poke;
+  var pokemon = _ref.pokemon;
   return _react2.default.createElement(
     'li',
     null,
     _react2.default.createElement(
       _reactRouterDom.Link,
-      { to: '/pokemon/' + poke.id },
+      { to: '/pokemon/' + pokemon.id },
       _react2.default.createElement(
         'span',
         null,
-        poke.id
+        pokemon.id
       ),
-      _react2.default.createElement('img', { src: poke.image_url, alt: poke.name, width: '20' }),
+      _react2.default.createElement('img', { src: pokemon.image_url, alt: pokemon.name, width: '20' }),
       _react2.default.createElement(
         'span',
         null,
-        poke.name
+        pokemon.name
       )
     )
   );
