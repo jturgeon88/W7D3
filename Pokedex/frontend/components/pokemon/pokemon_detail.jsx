@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import Item from '../items/item';
+import ItemDetailContainer from '../items/item_detail_container';
 
 class PokemonDetail extends Component {
   componentDidMount() {
@@ -16,12 +18,13 @@ class PokemonDetail extends Component {
 
 
   render () {
-    const { pokemon } = this.props;
+    const { pokemon, items } = this.props;
 
     // if (pokemonNotLoaded) return null
 
     if (!pokemon) return null;
     if (!pokemon.moves) return null;
+    if (!items) return null;
 
     return (
       <section className="pokemon-detail">
@@ -37,6 +40,14 @@ class PokemonDetail extends Component {
           <li>Defense: {pokemon.defense}</li>
           <li>Moves: {pokemon.moves.join(', ')}</li>
         </ul>
+        <section className="toys">
+          <h3>Items</h3>
+          <ul className="toy-list">
+            {items.map(item => <Item key={item.name} item={item} />)}
+          </ul>
+        </section>
+
+        <Route path="/pokemon/:pokemonId/item/:itemId" component={ItemDetailContainer} />
       </section>
     );
   }
